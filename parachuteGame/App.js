@@ -1,46 +1,53 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Animated, TouchableOpacity, Easing, Linear, Image,} from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableOpacity, Easing, Linear, Image, ImageBackground} from 'react-native';
 
 
 export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      fadeValue: new Animated.Value(0),
-      xValue: new Animated.Value(0), 
+      xValue: new Animated.Value(3), 
     }
   }
 
-  _fadeAnimation = () =>{
-    Animated.timing(this.state.fadeValue,{
-      toValue: (0),
-      duration: 2000,
-    }).start()
-  }
 
   _moveAnimation = () =>{
+     const downAnimation =
  Animated.timing(this.state.xValue,{
-      toValue: 250,
-      duration: 500,
-      asing: Easing.back(),
-  }).start()
+      toValue: 450,
+      duration: 6000,
+      easing: Easing.bounce,
+  })
+      Animated.loop(
+      downAnimation,
+      {
+        iterations: 1
+      }
+    ).start();
+  }
+
+  _stopAnimation = () =>{
+     (this.state.xValue).stopAnimation()
   }
   render() {
     
   return (
     <View style={styles.container}>
-
+<ImageBackground  style= { styles.backgroundImage } source={require('./images/pixelesRosas.jpg')} >
+<TouchableOpacity style={styles.imageView}
+onPress={this._stopAnimation}
+>
 <Animated.Image 
 source= {require('./images/parachute.png')} 
-style= {[styles.imageView, {left: this.state.xValue}
+style= {[styles.imageView, {top: this.state.xValue},
 ]}></Animated.Image>
-
+</TouchableOpacity>
 <TouchableOpacity style={styles.button}
 onPress={this._moveAnimation}
 >
 <Text style={styles.buttonText}> Start! </Text>
 </TouchableOpacity>
-    
+   </ImageBackground> 
     </View>
   );
 }
@@ -52,30 +59,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
-    flexDirection: 'row',
+    flexDirection: 'row', 
     // direction: 'column',
   },
  
   button:{
     backgroundColor: 'steelblue',
     height: 45,
-    marginTop: 45,
+    marginTop: 43,
     alignSelf: 'flex-end',
+    borderRadius: 5,
+      paddingHorizontal: 60,
+    //  justifyItems: 'button',
+    
   
   },
   buttonText:{
     color: 'white',
-    padding: 12 ,
-    paddingHorizontal: 20,
+    padding: 12,
+    paddingHorizontal: 12,
     fontWeight: 'bold',
     fontSize: 18,
     
   },
   
   imageView:{
-width: 50,
-height: 50,
+ width: 50,
+ height: 50,
+ flexDirection: 'row'
+  },
 
-flexDirection: 'column'
+  backgroundImage:{
+    flex: 1,
+        width: '100%',
+        height: '100%',
+        flexDirection: 'row',
+        
   }
 });
