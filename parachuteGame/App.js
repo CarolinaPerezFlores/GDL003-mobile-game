@@ -12,25 +12,45 @@ export default class App extends Component {
 
 
   _moveAnimation = () =>{
+
      const downAnimation =
- Animated.timing(this.state.xValue,{
+      Animated.timing(this.state.xValue,{
       toValue: 450,
       duration: 6000,
-      easing: Easing.bounce,
-  })
+      easing: Easing.bounce,  
+  } )
+  
       Animated.loop(
       downAnimation,
       {
-        iterations: 1
-      }
-    ).start();
+        iterations: 1,
+      },  
+
+
+    ).start(() => _gameOver());
+
+     const _gameOver = () => {
+  //  console.log(Object.keys(this.state.xValue))
+               if (+this.state.xValue._value === +450) {
+                alert('Game over');
+            }
+            
+    }
   }
+
+
 
   _stopAnimation = () =>{
      (this.state.xValue).stopAnimation()
   }
+
+
+  _gameOver = () => {
+   
+                alert('Game over');
+            
+  }
   render() {
-    
   return (
     <View style={styles.container}>
 <ImageBackground  style= { styles.backgroundImage } source={require('./images/pixelesRosas.jpg')} >
