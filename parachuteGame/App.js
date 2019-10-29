@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Animated, TouchableOpacity, Easing, Linear, Image, ImageBackground} from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableOpacity, Easing, Linear, Image, ImageBackground, TouchableWithoutFeedback} from 'react-native';
 
 
 export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      xValue: new Animated.Value(3), 
+      xValue: new Animated.ValueXY({ x: 135, y: 3 }),
     }
   }
 
@@ -15,7 +15,7 @@ export default class App extends Component {
 
      const downAnimation =
       Animated.timing(this.state.xValue,{
-      toValue: 450,
+      toValue: {x: 135, y: 450},
       duration: 6000,
       easing: Easing.bounce,  
   } )
@@ -30,8 +30,8 @@ export default class App extends Component {
     ).start(() => _gameOver());
 
      const _gameOver = () => {
-  //  console.log(Object.keys(this.state.xValue))
-               if (+this.state.xValue._value === +450) {
+    // console.log(Object.keys(this.state.xValue.y))
+               if (this.state.xValue.y._value >  400) {
                 alert('Game over');
             }
             
@@ -54,14 +54,14 @@ export default class App extends Component {
   return (
     <View style={styles.container}>
 <ImageBackground  style= { styles.backgroundImage } source={require('./images/pixelesRosas.jpg')} >
-<TouchableOpacity style={styles.imageView}
-onPress={this._stopAnimation}
+<TouchableWithoutFeedback style={styles.imageView}
+onPress={this._moveAnimation}
 >
 <Animated.Image 
 source= {require('./images/parachute.png')} 
-style= {[styles.imageView, {top: this.state.xValue},
+style= {[styles.imageView, this.state.xValue.getLayout(),
 ]}></Animated.Image>
-</TouchableOpacity>
+</TouchableWithoutFeedback>
 <TouchableOpacity style={styles.button}
 onPress={this._moveAnimation}
 >
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   },
   
   imageView:{
+    display: 'flex',
  width: 50,
  height: 50,
  flexDirection: 'row'
