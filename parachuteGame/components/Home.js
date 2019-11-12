@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, ImageBackground } from "react-native";
 
 class Home extends React.Component {
   onPressStartGame = () => {
@@ -8,6 +8,9 @@ class Home extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+       <ImageBackground
+          style={styles.backgroundImage}
+          source={require('../images/giphy.gif')}>
         <Text style={styles.title}>Parachute Game</Text>
         <Text style={styles.desc}>
           Press the parachutes to save them!
@@ -17,6 +20,7 @@ class Home extends React.Component {
           title="Start Game"
           accessibilityLabel="Start Game"
         />
+        </ImageBackground>
       </View>
     );
   }
@@ -39,6 +43,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 20
   },
+    backgroundImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    alignItems: "center",
+    justifyContent: "center"
+    // flexDirection: 'row',
+    }
 
 });
 
